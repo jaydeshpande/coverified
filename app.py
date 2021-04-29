@@ -28,11 +28,10 @@ def index():
     latest_resources = pd.read_csv(url)
     start_coords = (21.1458, 79.0882)
     folium_map = folium.Map(location=start_coords, zoom_start=5)
-    print (latest_resources.columns.values)
     for idx, row in latest_resources.iterrows():
         folium.Marker([row['Lat'], row['Long']], popup="<b>{}</b>: Verified on {} at {} and confirmed: {}".format(row['Name'], row['Verification Date'], row['Verification Time'], row['Status'])).add_to(folium_map)
     return folium_map._repr_html_()
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
