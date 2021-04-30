@@ -16,6 +16,7 @@
 
 from flask import Flask
 import folium
+from folium.plugins import MarkerCluster
 import pandas as pd 
 
 app = Flask(__name__)
@@ -28,8 +29,10 @@ def index():
     latest_resources = pd.read_csv(url)
     start_coords = (21.1458, 79.0882)
     folium_map = folium.Map(location=start_coords, zoom_start=5)
+    marker_cluster = MarkerCluster().add_to(folium_map)
+    
     for idx, row in latest_resources.iterrows():
-        folium.Marker([row['Lat'], row['Long']], popup="<b>{}</b>: Verified on {} at {} and confirmed: {}".format(row['Name'], row['Verification Date'], row['Verification Time'], row['Status'])).add_to(folium_map)
+        folium.Marker([row['Lat'], row['Long']], popup="<b>{}</b>: Verified on {} at {} and confirmed: {}".format(row['Name'], row['Verification Date'], row['Verification Time'], row['Status'])).add_to(marker_cluster)
     return folium_map._repr_html_()
 
 
